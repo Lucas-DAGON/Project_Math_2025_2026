@@ -44,20 +44,26 @@ class StrategieCyclique:
         self.index += 1
         
 
-class MaStrategie:
+class Bayesienne:
     """
     À compléter : définir votre propre algorithme de recommandation en fonction des succès/échecs précédents.
     Merci de ne pas modifier structure et noms !
     """
 
     def __init__(self, K):
-        pass
+        self.K = K
+        self.m = 0
+        self.n = 0
+        self.index = 0
 
     def initialiser(self):
-        pass
+        self.index = 0
 
     def choisir_traitement(self):
-        pass
+        if (self.index == 0):
+            pass
+        else:
+            pass
 
     def mettre_a_jour(self, traitement, succes):
         pass
