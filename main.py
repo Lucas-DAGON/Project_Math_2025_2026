@@ -8,7 +8,7 @@ Created on Tue Oct 14 09:50:57 2025
 import numpy as np
 import matplotlib.pyplot as plt
 from simulateur import SimulateurTraitement
-from strategies_gp10 import StrategieAleatoire, StrategieCyclique
+from strategies_gp10 import StrategieAleatoire, StrategieCyclique, StrategieBayesienne
 
 def simulation(strategie, simulateur):
     """
@@ -51,9 +51,10 @@ if __name__ == "__main__":
 
     strategies = [
         StrategieAleatoire(K),
-        StrategieCyclique(K)
+        StrategieCyclique(K),
+        StrategieBayesienne(K)
     ]
-    noms = ["Stratégie aléatoire", "Stratégie cyclique"]
+    noms = ["Stratégie aléatoire", "Stratégie cyclique", "Stratégie bayésienne"]
     
     X = np.zeros((len(noms), N))
 
@@ -75,23 +76,20 @@ if __name__ == "__main__":
         variance = np.var(X[i])
         print(f"esperance {nom} = {esperance}\nvariance {nom} = {variance}")
 
+
+
         # Strategie 3
         # Peut etre expliquer avec la loi student
         if nom == "Stratégie cyclique":
             # Extract first 30 results for each treatment (every K-th element starting from position j)
-            x_A = X[i][0:30*K:K]  # Treatment A: first 30 values at positions 0, K, 2K, ...
-            x_B = X[i][1:30*K:K]  # Treatment B: first 30 values at positions 1, K+1, 2K+1, ...
-            x_C = X[i][2:30*K:K]  # Treatment C: first 30 values at positions 2, K+2, 2K+2, ...
-            x_D = X[i][3:30*K:K]  # Treatment D: first 30 values at positions 3, K+3, 2K+3, ...
-            x_E = X[i][4:30*K:K]  # Treatment E: first 30 values at positions 4, K+4, 2K+4, ...
+            x_A = X[i][0:30*K:K]
+            x_B = X[i][1:30*K:K]
+            x_C = X[i][2:30*K:K]
+            x_D = X[i][3:30*K:K]
+            x_E = X[i][4:30*K:K]
             
-            print(f"esperance {nom} A = {np.mean(x_A)}\nvariance {nom} A = {np.var(x_A)}")
-            print(f"esperance {nom} B = {np.mean(x_B)}\nvariance {nom} B = {np.var(x_B)}")
-            print(f"esperance {nom} C = {np.mean(x_C)}\nvariance {nom} C = {np.var(x_C)}")
-            print(f"esperance {nom} D = {np.mean(x_D)}\nvariance {nom} D = {np.var(x_D)}")
-            print(f"esperance {nom} E = {np.mean(x_E)}\nvariance {nom} E = {np.var(x_E)}")
-            
+            list_x = [x_A, x_B, x_C, x_D, x_E]
+            for j, x in enumerate(list_x):
+                print(f"esperance {nom} traitement {chr(65+j)} = {np.mean(x)}\nvariance {nom} traitement {chr(65+j)} = {np.var(x)}")
 
             
-
-

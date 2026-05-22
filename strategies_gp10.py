@@ -44,7 +44,7 @@ class StrategieCyclique:
         self.index += 1
         
 
-class Bayesienne:
+class StrategieBayesienne:
     """
     À compléter : définir votre propre algorithme de recommandation en fonction des succès/échecs précédents.
     Merci de ne pas modifier structure et noms !
