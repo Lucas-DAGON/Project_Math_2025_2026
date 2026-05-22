@@ -46,18 +46,31 @@ class StrategieCyclique:
 
 class MaStrategie:
     """
-    À compléter : définir votre propre algorithme de recommandation en fonction des succès/échecs précédents.
-    Merci de ne pas modifier structure et noms !
+    Algorithme Thompson Sampling avec distribution Beta pour chaque traitement.
     """
 
     def __init__(self, K):
-        pass
+        self.K = K
+        self.alpha = np.ones(K)
+        self.beta = np.ones(K)
+        self.historique_traitements = []
+        self.historique_resultats = []
 
     def initialiser(self):
-        pass
+        self.alpha = np.ones(self.K)
+        self.beta = np.ones(self.K)
+        self.historique_traitements = []
+        self.historique_resultats = []
 
     def choisir_traitement(self):
-        pass
+        theta = np.random.beta(self.alpha, self.beta)
+        traitement = np.argmax(theta)
+        self.historique_traitements.append(traitement)
+        return traitement
 
     def mettre_a_jour(self, traitement, succes):
-        pass
+        self.historique_resultats.append(succes)
+        if succes:
+            self.alpha[traitement] += 1
+        else:
+            self.beta[traitement] += 1
