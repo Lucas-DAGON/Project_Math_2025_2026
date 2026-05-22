@@ -8,7 +8,7 @@ Created on Tue Oct 14 09:50:57 2025
 import numpy as np
 import matplotlib.pyplot as plt
 from simulateur import SimulateurTraitement
-from strategies_gp10 import StrategieAleatoire, StrategieCyclique, StrategieBayesienne
+from strategies_gp10 import StrategieAleatoire, StrategieCyclique, MaStrategie
 
 def simulation(strategie, simulateur):
     """
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     strategies = [
         StrategieAleatoire(K),
         StrategieCyclique(K),
-        StrategieBayesienne(K)
+        MaStrategie(K)
     ]
     noms = ["Stratégie aléatoire", "Stratégie cyclique", "Stratégie bayésienne"]
     
@@ -74,7 +74,7 @@ if __name__ == "__main__":
         # Calcul l'esperance et la variance des strategie
         esperance = np.mean(X[i])
         variance = np.var(X[i])
-        print(f"esperance {nom} = {esperance}\nvariance {nom} = {variance}")
+        print(f"esperance {nom} = {esperance}\nvariance {nom} = {variance}\n")
 
 
 
@@ -90,6 +90,25 @@ if __name__ == "__main__":
             
             list_x = [x_A, x_B, x_C, x_D, x_E]
             for j, x in enumerate(list_x):
-                print(f"esperance {nom} traitement {chr(65+j)} = {np.mean(x)}\nvariance {nom} traitement {chr(65+j)} = {np.var(x)}")
+                print(f"esperance {nom} traitement {chr(65+j)} = {np.mean(x)}\nvariance {nom} traitement {chr(65+j)} = {np.var(x)}\n")
 
+        
+        # Strategie 4
+        if nom == "Stratégie bayésienne":
+            print("\nAnalyse par traitement de la stratégie bayésienne :\n")
+
+            # Récupère l'historique de la dernière simulation
+            sim = SimulateurTraitement(seed=seed + repetitions - 1)
+            strat = MaStrategie(K)
+            simulation(strat, sim)
+
+            # Analyse chaque traitement
+            for t in range(K):
+                indices = np.where(np.array(strat.historique_traitements) == t)[0]
+                resultats_t = np.array(strat.historique_resultats)[indices]
+
+                if len(resultats_t) > 0:
+                    taux_succes = np.mean(resultats_t)
+                    nb_fois = len(resultats_t)
+                    print(f"Traitement {chr(65+t)} : {taux_succes:.2%} ({int(np.sum(resultats_t))}/{nb_fois})")
             
