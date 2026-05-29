@@ -79,7 +79,6 @@ if __name__ == "__main__":
 
 
         # Strategie 3
-        # Peut etre expliquer avec la loi student
         if nom == "Stratégie cyclique":
             # Extract first 30 results for each treatment (every K-th element starting from position j)
             x_A = X[i][0:30*K:K]
